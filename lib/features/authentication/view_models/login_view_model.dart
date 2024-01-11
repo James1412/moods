@@ -21,7 +21,7 @@ class LoginViewModel extends AsyncNotifier<void> {
   ) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
-      () async => await _repository.signIn(email, password),
+      () async => await _repository.signIn(email, password, context),
     );
     if (state.hasError) {
       if (!context.mounted) return;

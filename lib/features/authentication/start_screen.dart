@@ -70,6 +70,7 @@ class SignupScreenState extends ConsumerState<StartScreen> {
                     text: 'Log in',
                     onTap: _onLoginTap,
                   ),
+                  Gaps.v20,
                 ],
               ),
             ],

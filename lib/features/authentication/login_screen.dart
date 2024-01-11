@@ -129,8 +129,7 @@ class SignupScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: BottomAppBar(
+        bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: GestureDetector(
             onTap: _onContinueTap,

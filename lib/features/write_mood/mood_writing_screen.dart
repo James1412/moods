@@ -27,8 +27,6 @@ class _MoodWritingScreenState extends ConsumerState<MoodWritingScreen> {
     ["🥳", false],
     ["😭", false],
     ["🤬", false],
-    ["🫠", false],
-    ["🤮", false],
   ];
   String selectedEmoji = "";
   final MoodTileRepository _moodTileRepo = MoodTileRepository();
@@ -134,109 +132,112 @@ class _MoodWritingScreenState extends ConsumerState<MoodWritingScreen> {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("Your mood today"),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Gaps.v10,
-              TextField(
-                minLines: 8,
-                maxLines: 8,
-                controller: _controller,
-                cursorColor: Colors.black,
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                  hintText: "Write it down here!",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      Sizes.size5,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.size10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Gaps.v10,
+                TextField(
+                  minLines: 8,
+                  maxLines: 8,
+                  controller: _controller,
+                  cursorColor: Colors.black,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                    hintText: "Write it down here!",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        Sizes.size5,
+                      ),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                      ),
                     ),
-                    borderSide: const BorderSide(
-                      color: Colors.black,
-                      width: 1,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      Sizes.size5,
-                    ),
-                    borderSide: const BorderSide(
-                      color: Colors.black,
-                      width: 1,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        Sizes.size5,
+                      ),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Gaps.v20,
-              SizedBox(
-                height: Sizes.size52,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemCount: emojis.length,
-                      separatorBuilder: (context, index) => Gaps.h16,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: emojis[index][1] ? 1 : 0.4,
-                        child: GestureDetector(
-                          onTap: () => onIconTap(index),
-                          child: Text(
-                            emojis[index][0],
-                            style: const TextStyle(
-                              fontSize: Sizes.size36,
+                Gaps.v20,
+                SizedBox(
+                  height: Sizes.size52,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        itemCount: emojis.length,
+                        separatorBuilder: (context, index) => Gaps.h14,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => AnimatedOpacity(
+                          duration: const Duration(milliseconds: 300),
+                          opacity: emojis[index][1] ? 1 : 0.4,
+                          child: GestureDetector(
+                            onTap: () => onIconTap(index),
+                            child: Text(
+                              emojis[index][0],
+                              style: const TextStyle(
+                                fontSize: Sizes.size36,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                    ),
-                    Gaps.h16,
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Column(
-                        children: [
-                          Gaps.v8,
-                          GestureDetector(
-                            onTap: onAddIconTap,
-                            child: const Icon(
-                              Icons.add_circle_outline_rounded,
-                              size: Sizes.size32,
+                      Gaps.h16,
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Column(
+                          children: [
+                            Gaps.v8,
+                            GestureDetector(
+                              onTap: onAddIconTap,
+                              child: const Icon(
+                                Icons.add_circle_outline_rounded,
+                                size: Sizes.size32,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Gaps.v20,
-              const Text(
-                "How much?",
-                style: TextStyle(
-                  fontSize: Sizes.size18,
-                  fontWeight: FontWeight.bold,
+                Gaps.v20,
+                const Text(
+                  "How much?",
+                  style: TextStyle(
+                    fontSize: Sizes.size18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Slider(
-                value: moodLevel,
-                onChanged: (value) {
-                  setState(() {
-                    moodLevel = value;
-                  });
-                },
-                divisions: 10,
-              ),
-            ],
+                Slider(
+                  value: moodLevel,
+                  onChanged: (value) {
+                    setState(() {
+                      moodLevel = value;
+                    });
+                  },
+                  divisions: 10,
+                ),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
