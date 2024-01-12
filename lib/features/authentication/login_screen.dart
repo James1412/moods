@@ -19,7 +19,7 @@ class SignupScreenState extends ConsumerState<LoginScreen> {
   final Map<String, String> _formData = {};
   bool _isObsecure = false;
 
-  void _onContinueTap() {
+  void _onContinueTap(context) {
     if (_formKey.currentState != null) {
       _formKey.currentState!.save();
       ref.read(loginProvider.notifier).login(
@@ -132,7 +132,7 @@ class SignupScreenState extends ConsumerState<LoginScreen> {
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: GestureDetector(
-            onTap: _onContinueTap,
+            onTap: () => _onContinueTap(context),
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(

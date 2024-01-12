@@ -72,6 +72,46 @@ class SettingsScreen extends ConsumerWidget {
               );
             },
           ),
+          ListTile(
+            title: const Text(
+              "Delete Account",
+              style: TextStyle(),
+            ),
+            trailing: const Icon(
+              FontAwesomeIcons.userXmark,
+              color: Colors.red,
+            ),
+            onTap: () {
+              showCupertinoDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: const Text("Delete the account?"),
+                    content: const Text("Are you sure?"),
+                    actions: [
+                      CupertinoDialogAction(
+                        onPressed: () {
+                          Navigator.of(context).pop(context);
+                        },
+                        child: Text(
+                          "No",
+                          style: TextStyle(color: Colors.grey.shade500),
+                        ),
+                      ),
+                      CupertinoDialogAction(
+                        isDestructiveAction: true,
+                        child: const Text("Yes"),
+                        onPressed: () {
+                          ref.read(authRepo).deleteAccount();
+                          context.go('/');
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );

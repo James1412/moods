@@ -238,6 +238,19 @@ class _MoodTileState extends ConsumerState<PrivateMoodTile> {
               ),
             ],
           ),
+          Gaps.v10,
+          GestureDetector(
+            onTap: () async {
+              FirebaseFirestore db = FirebaseFirestore.instance;
+              await db
+                  .collection('moods')
+                  .doc(widget.moodId)
+                  .update({"isPublic": !widget.isPublic});
+              setState(() {});
+            },
+            child: Text(
+                widget.isPublic ? "Change to Private" : "Change to Public"),
+          ),
         ],
       ),
     );

@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthenticationRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   User? get user => _firebaseAuth.currentUser;
   bool get isLoggedIn => user != null;
@@ -27,6 +29,23 @@ class AuthenticationRepository {
       String email, String password, BuildContext context) async {
     await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+  }
+
+  Future<void> deleteAccount() async {
+    await _db
+        .collection('moods')
+        .where("creatorUid", isEqualTo: _firebaseAuth.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    try {
+      await _firebaseAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 }
 
